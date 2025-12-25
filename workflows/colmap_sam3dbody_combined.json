@@ -1,0 +1,108 @@
+{
+  "last_node_id": 4,
+  "last_link_id": 4,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "COLMAPAutoReconstruct",
+      "pos": [250, 100],
+      "size": [330, 320],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": null, "label": "Connect VHS_LoadVideo"},
+        {"name": "mask", "type": "MASK", "link": null, "label": "Connect person mask (optional)"}
+      ],
+      "outputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "links": [1], "slot_index": 0},
+        {"name": "status", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "sparse_points_preview", "type": "IMAGE", "links": null, "slot_index": 2}
+      ],
+      "properties": {"Node name for S&R": "COLMAPAutoReconstruct"},
+      "widgets_values": ["sequential", "sift", 8192, 15, "auto", "exclude_white", 10, 24.0, ""]
+    },
+    {
+      "id": 2,
+      "type": "COLMAPMotionAnalyzer",
+      "pos": [650, 100],
+      "size": [300, 180],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "link": 1}
+      ],
+      "outputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "links": [2], "slot_index": 0},
+        {"name": "motion_summary", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "motion_json", "type": "STRING", "links": null, "slot_index": 2}
+      ],
+      "properties": {"Node name for S&R": "COLMAPMotionAnalyzer"},
+      "widgets_values": [5, 0.1, 0.5, 0.01]
+    },
+    {
+      "id": 3,
+      "type": "COLMAPSceneCombiner",
+      "pos": [650, 320],
+      "size": [300, 200],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "link": 2},
+        {"name": "mesh_sequence", "type": "MESH_SEQUENCE", "link": null, "label": "Connect SAM3DBody output"}
+      ],
+      "outputs": [
+        {"name": "scene", "type": "COMBINED_SCENE", "links": [3], "slot_index": 0},
+        {"name": "status", "type": "STRING", "links": null, "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "COLMAPSceneCombiner"},
+      "widgets_values": ["blender", 1.0, true, true]
+    },
+    {
+      "id": 4,
+      "type": "COLMAPCameraExporter",
+      "pos": [1000, 320],
+      "size": [300, 200],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "link": null}
+      ],
+      "outputs": [
+        {"name": "file_path", "type": "STRING", "links": null, "slot_index": 0},
+        {"name": "status", "type": "STRING", "links": null, "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "COLMAPCameraExporter"},
+      "widgets_values": ["alembic", "scene_export", true, true, "blender"]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "CAMERA_DATA"],
+    [2, 2, 0, 3, 0, "CAMERA_DATA"],
+    [3, 3, 0, null, null, "COMBINED_SCENE"]
+  ],
+  "groups": [
+    {
+      "title": "Camera Tracking (COLMAP)",
+      "bounding": [240, 30, 360, 420],
+      "color": "#f59e0b"
+    },
+    {
+      "title": "Scene Combination & Export",
+      "bounding": [640, 30, 400, 520],
+      "color": "#10b981"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "info": {
+      "name": "COLMAP + SAM3DBody Scene",
+      "description": "Connect: 1) VHS_LoadVideo to images, 2) Person mask to mask input, 3) SAM3DBody mesh_sequence to Scene Combiner",
+      "version": "1.0.0"
+    }
+  },
+  "version": 0.4
+}

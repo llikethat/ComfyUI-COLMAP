@@ -1,0 +1,127 @@
+{
+  "last_node_id": 6,
+  "last_link_id": 5,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "COLMAPAutoReconstruct",
+      "pos": [250, 150],
+      "size": [330, 320],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": null},
+        {"name": "mask", "type": "MASK", "link": null}
+      ],
+      "outputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "links": [1, 2], "slot_index": 0},
+        {"name": "status", "type": "STRING", "links": [3], "slot_index": 1},
+        {"name": "sparse_points_preview", "type": "IMAGE", "links": [4], "slot_index": 2}
+      ],
+      "properties": {"Node name for S&R": "COLMAPAutoReconstruct"},
+      "widgets_values": ["sequential", "sift", 8192, 15, "auto", "exclude_white", 10, 24.0, ""]
+    },
+    {
+      "id": 2,
+      "type": "COLMAPMotionAnalyzer",
+      "pos": [650, 100],
+      "size": [300, 180],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "link": 1}
+      ],
+      "outputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "links": [5], "slot_index": 0},
+        {"name": "motion_summary", "type": "STRING", "links": null, "slot_index": 1},
+        {"name": "motion_json", "type": "STRING", "links": null, "slot_index": 2}
+      ],
+      "properties": {"Node name for S&R": "COLMAPMotionAnalyzer"},
+      "widgets_values": [5, 0.1, 0.5, 0.01]
+    },
+    {
+      "id": 3,
+      "type": "COLMAPCameraExporter",
+      "pos": [1000, 100],
+      "size": [300, 200],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "link": 5}
+      ],
+      "outputs": [
+        {"name": "file_path", "type": "STRING", "links": null, "slot_index": 0},
+        {"name": "status", "type": "STRING", "links": null, "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "COLMAPCameraExporter"},
+      "widgets_values": ["json", "camera_tracking", true, true, "blender"]
+    },
+    {
+      "id": 4,
+      "type": "COLMAPCameraExporter",
+      "pos": [650, 320],
+      "size": [300, 200],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {"name": "camera_data", "type": "CAMERA_DATA", "link": 2}
+      ],
+      "outputs": [
+        {"name": "file_path", "type": "STRING", "links": null, "slot_index": 0},
+        {"name": "status", "type": "STRING", "links": null, "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "COLMAPCameraExporter"},
+      "widgets_values": ["alembic", "camera_animation", true, false, "blender"]
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [250, 520],
+      "size": [330, 250],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 4}
+      ],
+      "properties": {"Node name for S&R": "PreviewImage"}
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "CAMERA_DATA"],
+    [2, 1, 0, 4, 0, "CAMERA_DATA"],
+    [3, 1, 1, null, null, "STRING"],
+    [4, 1, 2, 5, 0, "IMAGE"],
+    [5, 2, 0, 3, 0, "CAMERA_DATA"]
+  ],
+  "groups": [
+    {
+      "title": "1. Connect VHS_LoadVideo here",
+      "bounding": [20, 80, 200, 200],
+      "color": "#3f789e"
+    },
+    {
+      "title": "2. COLMAP Reconstruction",
+      "bounding": [240, 80, 350, 500],
+      "color": "#f59e0b"
+    },
+    {
+      "title": "3. Motion Analysis & Export",
+      "bounding": [640, 30, 400, 520],
+      "color": "#10b981"
+    }
+  ],
+  "config": {},
+  "extra": {
+    "info": {
+      "name": "COLMAP Camera Tracking",
+      "description": "Connect VHS_LoadVideo to the images input. Optionally connect a mask to exclude moving objects.",
+      "version": "1.0.0"
+    }
+  },
+  "version": 0.4
+}

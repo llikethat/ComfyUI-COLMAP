@@ -1,0 +1,16 @@
+# ComfyUI-COLMAP Dependencies
+
+# Core (required)
+numpy>=1.20.0
+Pillow>=9.0.0
+
+# COLMAP Python bindings (recommended)
+# Install with: pip install pycolmap
+# Or for CUDA: pip install pycolmap-cuda12
+pycolmap>=0.6.0
+
+# For OpenCV YAML export
+opencv-python>=4.5.0
+
+# Optional: For progress bars in standalone usage
+# enlighten>=1.10.0
