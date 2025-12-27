@@ -21,7 +21,7 @@ Extract camera intrinsics, extrinsics, and motion data from video sequences usin
 
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/llikethat/ComfyUI-COLMAP.git
+git clone https://github.com/yourusername/ComfyUI-COLMAP.git
 cd ComfyUI-COLMAP
 pip install -r requirements.txt
 ```
@@ -104,6 +104,9 @@ Export camera data to various formats:
 - **OpenCV YAML** — Computer vision applications
 - **COLMAP Text** — Native COLMAP format
 
+### 🎬 Scene Combiner (Camera + Body)
+Combine COLMAP camera tracking with SAM3DBody mesh sequence for complete scene export.
+
 ## Workflows
 
 ### Basic Camera Tracking
@@ -120,6 +123,12 @@ Export camera data to various formats:
 [COLMAP Camera Exporter] ← [COLMAP Camera Extractor] ← [COLMAP Sparse Reconstructor]
 ```
 
+### Combined with SAM3DBody
+```
+[VHS Load Video] ─┬→ [COLMAP Auto Reconstruct] → [COLMAP Motion Analyzer]
+                  │                                        ↓
+                  └→ [SAM3DBody Processor] ────→ [Scene Combiner] → [Export]
+```
 
 ## Coordinate Systems
 
