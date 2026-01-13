@@ -21,7 +21,7 @@ Extract camera intrinsics, extrinsics, and motion data from video sequences usin
 
 ```bash
 cd ComfyUI/custom_nodes
-git clone https://github.com/yourusername/ComfyUI-COLMAP.git
+git clone https://github.com/llikethat/ComfyUI-COLMAP.git
 cd ComfyUI-COLMAP
 pip install -r requirements.txt
 ```
